@@ -3,20 +3,20 @@
 network: 
   servers:               # Here, you will declare a list of servers
     - s1:                # server name
-        ip: 192.168.0.1  # server IP
+        ip: 127.0.0.1    #192.168.0.1  # server IP
         port: 8181       # service port
     - s2:
-        ip: 192.168.0.2
+        ip: 127.0.0.1   #192.168.0.2
         port: 8282
   clients:
     - c1:
-        ip: 192.168.1.1
+        ip: 127.0.0.1   #192.168.1.1
         port: 6000
     - c2:
-        ip: 192.168.1.2
+        ip: 127.0.0.1   #192.168.1.2
         port: 6001
     - c3:
-        ip: 192.168.1.3
+        ip: 127.0.0.1   #192.168.1.3
         port: 6002
 
 # Delare services
@@ -43,29 +43,34 @@ service:
         - rpc3
 
 # Declare RPCs
-rpc:
-  - rpc1:                     # Name of the RPC
-      args:                   # List of argument types
-        - int                 # integer type (don't bother with subtypes, like int32, short, etc.)
-        - str                 # string type
-      returns:                # List of output types
-        - str
-      src: path/to/rpc1.py    # RPC scripts are Python scripts with a single function,
-                              # and are assumed to be locally available to the initializer 
-                              # code.
-
-  - rpc2:        
-      args:
-        - List[int]           # List of ints
-        - List[str]           # List of strings
-      returns:
-        - str
-      src: path/to/rpc2.py
-
-  - rpc3:
-      args:
-        - float               # Simple float number
-        - List[float]         # List of floats 
-      returns:
-        - str
-      src: path/to/rpc3.py
+rpc: 
+  service1:               
+    - rpc1:               
+        args: 
+          - int  
+          - str
+        returns:
+          - str     
+        src: ./services/service1/rpc1/['int', 'str']['str']/rpc1.py
+    - rpc1:               
+        args: 
+          - int  
+          - int
+        returns:
+          - int    
+        src: ./services/service1/rpc1/['int', 'int']['int']/rpc1.py
+    - rpc2:        
+        args:
+          - List[int]           # List of ints
+          - List[str]           # List of strings
+        returns:
+          - str
+        src: ./services/service1/rpc2/['List[int]', 'List[str]']['str']/rpc2.py        
+  service2:
+    - rpc3:
+        args:
+          - float               # Simple float number
+          - List[float]         # List of floats 
+        returns:
+          - str
+        src: ./services/service2/rpc3/['float', 'List[float]']['str']/rpc3.py
