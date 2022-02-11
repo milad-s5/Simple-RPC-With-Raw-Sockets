@@ -227,7 +227,6 @@ class Server:
                 print(msg1)
             switched_socket.close()
         except Exception as e:
-            print(e)
             switched_socket.close()
             print('Adversial client attempt to connect')
     # server accept
